@@ -7,14 +7,8 @@ all: rpn_evaluate
 rpn_evaluate: convert.o evaluate.o main.o
 	$(CC) convert.o evaluate.o main.o -o rpn_evaluate
 
-convert.o: convert.cpp
-	$(CC) $(CFLAGS) convert.cpp
-
-evaluate.o: evaluate.cpp
-	$(CC) $(CFLAGS) evaluate.cpp
-
-main.o: main.cpp
-	$(CC) $(CFLAGS) main.cpp
+%.o: %.cpp
+	$(CC) $(CFLAGS) -o $@ $<
 
 clean:
 	rm *.o rpn_evaluate
