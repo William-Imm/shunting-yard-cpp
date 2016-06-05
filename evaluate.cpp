@@ -79,7 +79,7 @@ int evaluate(std::queue<char> expression)
 						result_stack = process_operator(result_stack, [] (int val1, int val2) { return pow(val1, val2); });
 						break;
 					default:
-						string error = "Unreconized symbol ";
+						string error = "Unrecognized symbol ";
 						error.push_back(term);
 						throw runtime_error(error);
 				}

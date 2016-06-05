@@ -75,7 +75,7 @@ std::queue<char> convert_to_rpn(std::string expression)
 					operator_stack.pop();
 					if (operator_stack.empty())
 					{
-						std::cout << "Error: Unclosed parnthesis expression. Exiting." << std::endl;
+						std::cout << "Error: Unclosed parenthesis expression. Exiting." << std::endl;
 						exit(EXIT_FAILURE);
 					}
 					top_operator = operator_stack.top();
