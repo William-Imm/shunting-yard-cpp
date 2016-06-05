@@ -21,7 +21,7 @@ struct operator_detail
 
 const std::unordered_map<char, operator_detail> operator_map 
 {
-  {'+', {2, false}},
+	{'+', {2, false}},
 	{'-', {2, false}},
 	{'*', {3, false}},
 	{'/', {3, false}},
