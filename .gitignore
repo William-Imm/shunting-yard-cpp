@@ -27,3 +27,6 @@
 *.out
 *.app
 rpn_evaluate
+
+# Vim swap files
+*.swp
