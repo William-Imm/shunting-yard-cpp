@@ -155,15 +155,15 @@ namespace EquParser
 		
 		while (!output_queue.empty())
 		{
-			infix_equation.push_back(output_queue.front());
-			infix_equation.push_back(' ');
+			rpn_equation.push_back(output_queue.front());
+			rpn_equation.push_back(' ');
 			output_queue.pop();
 		}
 
 		while (!operator_stack.empty())
 		{
-			infix_equation.push_back(operator_stack.top());
-			infix_equation.push_back(' ');
+			rpn_equation.push_back(operator_stack.top());
+			rpn_equation.push_back(' ');
 			operator_stack.pop();
 		}
 	}

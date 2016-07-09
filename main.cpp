@@ -9,10 +9,12 @@
 int main()
 {
 	std::string expression;
+	using EquParser::Equation;
 
 	std::cout << "Enter an expression: ";
 	std::getline(std::cin, expression);
-	EquParser::Equation equation = expression;
-	std::cout << equation.get_rpn_equation() << std::endl;
-	std::cout << "Evaluated result: " << equation.evaluate() << std::endl;
+	Equation equation = expression;
+	std::cout << equation.get_infix_equation() << std::endl;
+	int result = equation.evaluate();
+	std::cout << "Evaluated result: " << result << std::endl;
 }
