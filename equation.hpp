@@ -8,15 +8,15 @@ namespace EquParser
 {
 	class Equation
 	{
+	private:
+		std::string infix_equation;
+		std::string rpn_equation;
+		void convert_to_rpn();
 	public:
 		Equation(); // default, blank constructor
 		Equation(const std::string equation);
 		int evaluate();
-		std::string getInfixEquation();
-		std::string getRPNEquation();
-	private:
-		std::string infixEquation;
-		std::string rpnEquation;
-		void convertToRPN();
+		std::string get_infix_equation();
+		std::string get_rpn_equation();
 	};
 }
