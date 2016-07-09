@@ -4,8 +4,8 @@ CFLAGS=-c -Wall -std=c++11
 
 all: rpn_evaluate
 
-rpn_evaluate: convert.o evaluate.o main.o
-	$(CC) convert.o evaluate.o main.o -o rpn_evaluate
+rpn_evaluate: equation.o main.o utility.o
+	$(CC) equation.o main.o utility.o -o rpn_evaluate
 
 %.o: %.cpp
 	$(CC) $(CFLAGS) -o $@ $<

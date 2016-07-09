@@ -2,20 +2,17 @@
 // William Immendorf - 2016
 
 #include <iostream>
-#include <queue>
 #include <string>
 
-#include "rpn.hpp"
+#include "equation.hpp"
 
 int main()
 {
-	using namespace std;
-	string expression;
+	std::string expression;
 
-	cout << "Enter an expression: ";
-	getline(cin, expression);
-	queue<char> rpn_expression = convert_to_rpn(expression);
-	int result = evaluate(rpn_expression);
-
-	cout << "Evaluated result: " << result << endl;
+	std::cout << "Enter an expression: ";
+	std::getline(std::cin, expression);
+	EquParser::Equation equation = expression;
+	std::cout << equation.get_rpn_equation() << std::endl;
+	std::cout << "Evaluated result: " << equation.evaluate() << std::endl;
 }
