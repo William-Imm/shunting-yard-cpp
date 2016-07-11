@@ -46,7 +46,7 @@ namespace EquParser
 		return false;
 	}
 
-	bool enough_on_stack(std::stack<int> stack, int size)
+	inline bool enough_on_stack(std::stack<int> stack, int size)
   {
     if (stack.size() < size)
     {
