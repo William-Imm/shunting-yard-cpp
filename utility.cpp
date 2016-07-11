@@ -46,18 +46,9 @@ namespace EquParser
 		return false;
 	}
 
-	inline bool enough_on_stack(std::stack<int> stack, int size)
-  {
-    if (stack.size() < size)
-    {
-      return false;
-    }
-	  return true;
-  }
-  
   std::stack<int> process_operator(std::stack<int> num_stack, std::function<int (int val1, int val2)> expression)
   {
-    if (enough_on_stack(num_stack, 2))
+    if (num_stack.size() >= 2)
     {
       int val1 = num_stack.top();
       num_stack.pop();
