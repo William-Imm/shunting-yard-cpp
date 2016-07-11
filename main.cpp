@@ -14,7 +14,7 @@ int main()
 	std::cout << "Enter an expression: ";
 	std::getline(std::cin, expression);
 	Equation equation = expression;
-	std::cout << equation.get_infix_equation() << std::endl;
+	std::cout << equation.get_rpn_equation() << std::endl;
 	int result = equation.evaluate();
 	std::cout << "Evaluated result: " << result << std::endl;
 }

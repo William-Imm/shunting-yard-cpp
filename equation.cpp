@@ -15,13 +15,11 @@ namespace EquParser
 {
 	Equation::Equation()
 	{
-		infix_equation = "";
-		rpn_equation = "";
+		// This space intentionally left blank
 	}
 	
-	Equation::Equation(const std::string equation)
+	Equation::Equation(const std::string equation) : infix_equation(equation)
 	{
-		infix_equation = equation;
 		convert_to_rpn();
 	}
 
