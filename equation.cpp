@@ -18,7 +18,7 @@ namespace EquParser
 		// This space intentionally left blank
 	}
 	
-	Equation::Equation(const std::string equation) : infix_equation(equation)
+	Equation::Equation(const std::string & equation) : infix_equation(equation)
 	{
 		convert_to_rpn();
 	}

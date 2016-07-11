@@ -14,7 +14,7 @@ namespace EquParser
 		void convert_to_rpn();
 	public:
 		Equation(); // default, blank constructor
-		Equation(const std::string equation);
+		Equation(const std::string & equation);
 		int evaluate();
 		std::string get_infix_equation();
 		std::string get_rpn_equation();
