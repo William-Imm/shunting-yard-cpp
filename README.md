@@ -11,4 +11,3 @@ Simply run `make` to compile, and `make clean` to clean up.
 ## Todo
 
  * Document functions
- * Convert to use an Equation object
