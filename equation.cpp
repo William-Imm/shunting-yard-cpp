@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <locale>
-#include <queue>
+#include <stack>
 #include <stdexcept>
 
 #include "equation.hpp"
@@ -23,14 +23,27 @@ namespace EquParser
 		convert_to_rpn();
 	}
 
-	std::string Equation::get_infix_equation()
+	std::string Equation::get_infix_equation() const
 	{
 		return infix_equation;
 	}
 
-	std::string Equation::get_rpn_equation()
+	std::queue<char> Equation::get_rpn_equation() const
 	{
 		return rpn_equation;
+	}
+
+	std::string Equation::rpn_to_string() const
+	{
+		std::queue<char> clone_queue(rpn_equation);
+		std::string result;
+		while (!clone_queue.empty())
+		{
+			result.push_back(clone_queue.front());
+			result.push_back(' ');
+			clone_queue.pop();
+		}
+		return result.substr(0, result.length() - 1);;
 	}
 
 	int Equation::evaluate()
@@ -38,6 +51,7 @@ namespace EquParser
 		using std::cout;
 		using std::endl;
 		std::stack<int> result_stack;
+		std::queue<char> clone_queue(rpn_equation);
 		std::locale loc;
 
 		if (rpn_equation.empty())
@@ -46,8 +60,10 @@ namespace EquParser
 			exit(EXIT_FAILURE);
 		}
 
-		for (char term : rpn_equation)
+		while (!clone_queue.empty())
 		{
+			char term = clone_queue.front();
+			clone_queue.pop();
 			if (isspace(term, loc))
 				continue;
 			else if (isdigit(term, loc))
@@ -153,16 +169,20 @@ namespace EquParser
 		
 		while (!output_queue.empty())
 		{
-			rpn_equation.push_back(output_queue.front());
-			rpn_equation.push_back(' ');
+			rpn_equation.push(output_queue.front());
 			output_queue.pop();
 		}
 
 		while (!operator_stack.empty())
 		{
-			rpn_equation.push_back(operator_stack.top());
-			rpn_equation.push_back(' ');
+			rpn_equation.push(operator_stack.top());
 			operator_stack.pop();
 		}
+	}
+
+	std::ostream & operator<<(std::ostream & os, const Equation equation)
+	{
+		os << equation.rpn_to_string();
+		return os;
 	}
 }
