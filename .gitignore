@@ -30,3 +30,7 @@ rpn_evaluate
 
 # Vim swap files
 *.swp
+
+# YouCompleteMe files
+.ycm_extra_conf.py
+__pycache__
