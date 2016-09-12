@@ -27,12 +27,12 @@ namespace EquParser
 		// This makes the linker happy.
 	}
 
-	bool Equation::handle_input(char c, std::deque<std::string> & output_queue, std::stack<char> & operator_stack)
+	bool Equation::handle_input(const char c, std::deque<std::string> & output_queue, std::stack<char> & operator_stack)
 	{
 		return false;
 	}
 
-	bool Equation::handle_term(std::string term, std::stack<double> & result_stack)
+	bool Equation::handle_term(const std::string term, std::stack<double> & result_stack)
 	{
 		return false;
 	}
