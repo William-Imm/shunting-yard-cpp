@@ -4,16 +4,19 @@
 #include <iostream>
 #include <string>
 
-#include "equation.hpp"
+#include "varequation.hpp"
 
 int main()
 {
 	std::string expression;
-	using EquParser::Equation;
+	double x;
+	using EquParser::VariableEquation;
 
 	std::cout << "Enter an expression: ";
 	std::getline(std::cin, expression);
-	Equation equation(expression);
+	std::cout << "Enter a X value: ";
+	std::cin >> x;
+	VariableEquation equation(expression, x);
 	std::cout << equation << std::endl;
 	double result = equation.evaluate();
 	std::cout << "Evaluated result: " << result << std::endl;

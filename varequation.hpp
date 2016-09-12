@@ -19,7 +19,8 @@ namespace EquParser
 			VariableEquation(const std::string & equation);
 			VariableEquation(const std::string & equation, const double x);
 			VariableEquation(const Equation & equation, const double x);
-			double getX() { return x; }
-			void setX(double x) { this->x = x; }
+			double getX() const { return x; }
+			void setX(const double x) { this->x = x; }
+			friend std::ostream & operator<<(std::ostream & os, VariableEquation equation);
 	};
 }

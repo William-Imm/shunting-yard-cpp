@@ -6,6 +6,7 @@
 #include <iostream>
 #include <locale>
 #include <stdexcept>
+#include <utility>
 
 #include "equation.hpp"
 #include "utility.hpp"
@@ -44,13 +45,13 @@ namespace EquParser
 	}
 
 	// Returns the RPN equation as its native queue format
-	std::queue<std::string> Equation::get_rpn_equation() const
+	std::queue<std::string> Equation::get_rpn_equation()
 	{
 		return rpn_equation;
 	}
 
 	// Create a string representation of the RPN formatted equation
-	std::string Equation::rpn_to_string() const
+	std::string Equation::rpn_to_string() 
 	{
 		std::queue<std::string> clone_queue(rpn_equation);
 		std::string result;
@@ -247,6 +248,10 @@ namespace EquParser
 
 		}
 
+		// Clear RPN equation:
+		std::queue<string> empty_temp;
+		std::swap(rpn_equation, empty_temp);
+
 		// Empty output queue into RPN equation
 		while (!output_queue.empty())
 		{
@@ -263,7 +268,7 @@ namespace EquParser
 	}
 
 	// Allow direct printing of equation in RPN form
-	std::ostream & operator<<(std::ostream & os, const Equation equation)
+	std::ostream & operator<<(std::ostream & os, Equation equation)
 	{
 		os << equation.rpn_to_string();
 		return os;
