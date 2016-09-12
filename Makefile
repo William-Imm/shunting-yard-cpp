@@ -1,6 +1,6 @@
 CC=clang++
 
-CFLAGS=-c -Wall -std=c++11
+CFLAGS=-c -g -Wall -std=c++11
 
 all: rpn_evaluate
 

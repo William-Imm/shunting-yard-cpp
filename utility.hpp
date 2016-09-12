@@ -9,5 +9,5 @@
 namespace EquParser
 {
 	bool precendence_less_than(const char op1, const char op2);
-	std::stack<int> process_operator(std::stack<int> & num_stack, std::function<int (int val1, int val2)> expression);
+	void process_operator(std::stack<double> & num_stack, std::function<double (double val1, double val2)> expression);
 }

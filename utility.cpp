@@ -46,18 +46,17 @@ namespace EquParser
 		return false;
 	}
 
-  std::stack<int> process_operator(std::stack<int> & num_stack, std::function<int (int val1, int val2)> expression)
+	void process_operator(std::stack<double> & num_stack, std::function<double (double val1, double val2)> expression)
   {
     if (num_stack.size() >= 2)
     {
-      int val1 = num_stack.top();
+      double val1 = num_stack.top();
       num_stack.pop();
-      int val2 = num_stack.top();
+      double val2 = num_stack.top();
       num_stack.pop();
       num_stack.push(expression(val1, val2));
     }
     else
       throw std::runtime_error("Not enough arguments for an operator");
-    return num_stack;
 	}
 }

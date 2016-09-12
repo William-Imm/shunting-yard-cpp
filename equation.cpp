@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <iostream>
 #include <locale>
-#include <stack>
 #include <stdexcept>
 
 #include "equation.hpp"
@@ -23,35 +22,50 @@ namespace EquParser
 		convert_to_rpn();
 	}
 
+	Equation::~Equation()
+	{
+		// This makes the linker happy.
+	}
+
+	void Equation::handle_input(char c, std::deque<std::string> & output_queue, std::stack<char> & operator_stack)
+	{
+		// TODO
+	}
+
+	void Equation::handle_term(char term, std::stack<double> & result_stack)
+	{
+		// TODO
+	}
+
 	std::string Equation::get_infix_equation() const
 	{
 		return infix_equation;
 	}
 
-	std::queue<char> Equation::get_rpn_equation() const
+	std::queue<std::string> Equation::get_rpn_equation() const
 	{
 		return rpn_equation;
 	}
 
 	std::string Equation::rpn_to_string() const
 	{
-		std::queue<char> clone_queue(rpn_equation);
+		std::queue<std::string> clone_queue(rpn_equation);
 		std::string result;
 		while (!clone_queue.empty())
 		{
-			result.push_back(clone_queue.front());
+			result.append(clone_queue.front());
 			result.push_back(' ');
 			clone_queue.pop();
 		}
 		return result.substr(0, result.length() - 1);;
 	}
 
-	int Equation::evaluate()
+	double Equation::evaluate()
 	{
 		using std::cout;
 		using std::endl;
-		std::stack<int> result_stack;
-		std::queue<char> clone_queue(rpn_equation);
+		std::stack<double> result_stack;
+		std::queue<std::string> clone_queue(rpn_equation);
 		std::locale loc;
 
 		if (rpn_equation.empty())
@@ -62,36 +76,36 @@ namespace EquParser
 
 		while (!clone_queue.empty())
 		{
-			char term = clone_queue.front();
+			std::string term = clone_queue.front();
 			clone_queue.pop();
-			if (isspace(term, loc))
+			if (isspace(term[0], loc))
 				continue;
-			else if (isdigit(term, loc))
-				result_stack.push(term - '0');
+			else if (isdigit(term[0], loc))
+				result_stack.push(std::stod(term));
 			else
 			{
 				try 
 				{
-					switch (term)
+					switch (term[0])
 					{
 						case '+':
-							result_stack = process_operator(result_stack, [] (int val1, int val2) { return val1 + val2; });
+							process_operator(result_stack, [] (double val1, double val2) { return val1 + val2; });
 							break;
 						case '-':
-							result_stack = process_operator(result_stack, [] (int val1, int val2) { return val2 - val1; });
+							process_operator(result_stack, [] (double val1, double val2) { return val2 - val1; });
 							break;
 						case '*':
-							result_stack = process_operator(result_stack, [] (int val1, int val2) { return val1 * val2; });
+							process_operator(result_stack, [] (double val1, double val2) { return val1 * val2; });
 							break;
 						case '/':
-							result_stack = process_operator(result_stack, [] (int val1, int val2) { return val1 / val2; });
+							process_operator(result_stack, [] (double val1, double val2) { return val1 / val2; });
 							break;
 						case '^':
-							result_stack = process_operator(result_stack, [] (int val1, int val2) { return pow(val1, val2); });
+							process_operator(result_stack, [] (double val1, double val2) { return pow(val1, val2); });
 							break;
 						default:
 							std::string error = "Unrecognized symbol ";
-							error.push_back(term);
+							error.append(term);
 							throw std::runtime_error(error);
 					}
 				}
@@ -116,16 +130,46 @@ namespace EquParser
 
 	void Equation::convert_to_rpn()
 	{
-		std::queue<char> output_queue;
+		std::deque<std::string> output_queue;
 		std::stack<char> operator_stack;
 		std::locale loc;
+
+		bool decimal = false;
 
 		for (char c : infix_equation)
 		{
 			if (isspace(c, loc) || isalpha(c, loc))
 				continue;
 			else if (isdigit(c, loc))
-				output_queue.push(c);
+			{
+				if (decimal)
+				{
+					std::string prev_string = output_queue.back();
+					output_queue.pop_back();
+					prev_string.push_back(c);
+					output_queue.push_back(prev_string);
+				}
+				else
+					output_queue.push_back(std::string(1, c));
+			}
+			else if (c == '.')
+			{
+				if (decimal)
+					continue;
+				else
+				{
+					std::string prev_string = output_queue.back();
+					if (isdigit(prev_string[0],loc))
+					{
+						output_queue.pop_back();
+						prev_string.push_back('.');
+						output_queue.push_back(prev_string);
+						decimal = true;
+					}
+					else
+						continue;
+				}
+			}
 			else if (c == '(')
 				operator_stack.push(c);
 			else if (c == ')')
@@ -135,7 +179,7 @@ namespace EquParser
 					char top_operator = operator_stack.top();
 					while (top_operator != '(')
 					{
-						output_queue.push(top_operator);
+						output_queue.push_back(std::string(1, top_operator));
 						operator_stack.pop();
 						if (operator_stack.empty())
 						{
@@ -159,23 +203,27 @@ namespace EquParser
 					char top_operator = operator_stack.top();
 					if (precendence_less_than(c, top_operator))
 					{
-						output_queue.push(top_operator);
+						output_queue.push_back(std::string(1, top_operator));
 						operator_stack.pop();
 					}
 				}
 				operator_stack.push(c);
+			}
+			if (c != '.' && !isdigit(c, loc))
+			{
+				decimal = false;
 			}
 		}
 		
 		while (!output_queue.empty())
 		{
 			rpn_equation.push(output_queue.front());
-			output_queue.pop();
+			output_queue.pop_front();
 		}
 
 		while (!operator_stack.empty())
 		{
-			rpn_equation.push(operator_stack.top());
+			rpn_equation.push(std::string(1, operator_stack.top()));
 			operator_stack.pop();
 		}
 	}

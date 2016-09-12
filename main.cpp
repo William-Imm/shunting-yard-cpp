@@ -15,6 +15,6 @@ int main()
 	std::getline(std::cin, expression);
 	Equation equation(expression);
 	std::cout << equation << std::endl;
-	int result = equation.evaluate();
+	double result = equation.evaluate();
 	std::cout << "Evaluated result: " << result << std::endl;
 }
