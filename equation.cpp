@@ -33,7 +33,7 @@ namespace EquParser
 		return false;
 	}
 
-	bool Equation::handle_term(const std::string term, std::stack<double> & result_stack)
+	bool Equation::handle_term(const std::string term, std::stack<double> & result_stack) const
 	{
 		return false;
 	}
@@ -45,13 +45,13 @@ namespace EquParser
 	}
 
 	// Returns the RPN equation as its native queue format
-	std::queue<std::string> Equation::get_rpn_equation()
+	std::queue<std::string> Equation::get_rpn_equation() const
 	{
 		return rpn_equation;
 	}
 
 	// Create a string representation of the RPN formatted equation
-	std::string Equation::rpn_to_string() 
+	std::string Equation::rpn_to_string() const 
 	{
 		std::queue<std::string> clone_queue(rpn_equation);
 		std::string result;
@@ -65,7 +65,7 @@ namespace EquParser
 	}
 
 	// Evaluates the equation from stored queue and returns the result.
-	double Equation::evaluate()
+	double Equation::evaluate() const
 	{
 		using std::cout;
 		using std::endl;
@@ -268,7 +268,7 @@ namespace EquParser
 	}
 
 	// Allow direct printing of equation in RPN form
-	std::ostream & operator<<(std::ostream & os, Equation equation)
+	std::ostream & operator<<(std::ostream & os, const Equation & equation)
 	{
 		os << equation.rpn_to_string();
 		return os;

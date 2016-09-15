@@ -12,8 +12,8 @@ namespace EquParser
 		private:
 			double x;
 		protected:
-			virtual bool handle_input(const char c, std::deque<std::string> & output_queue, std::stack<char> & operator_stack);
-			virtual bool handle_term(const std::string term, std::stack<double> & result_stack);
+			virtual bool handle_input(const char c, std::deque<std::string> & output_queue, std::stack<char> & operator_stack) const;
+			virtual bool handle_term(const std::string term, std::stack<double> & result_stack) const;
 		public:
 			VariableEquation();
 			VariableEquation(const std::string & equation);
@@ -21,6 +21,5 @@ namespace EquParser
 			VariableEquation(const Equation & equation, const double x);
 			double getX() const { return x; }
 			void setX(const double x) { this->x = x; }
-			friend std::ostream & operator<<(std::ostream & os, VariableEquation equation);
 	};
 }

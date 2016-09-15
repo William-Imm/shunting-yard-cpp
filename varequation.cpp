@@ -31,7 +31,7 @@ namespace EquParser
 	}
 
 	// Handle X variable in infix
-	bool VariableEquation::handle_input(const char c, std::deque<std::string> & output_queue, std::stack<char> & operator_stack)
+	bool VariableEquation::handle_input(const char c, std::deque<std::string> & output_queue, std::stack<char> & operator_stack) const
 	{
 		std::locale loc;
 		if (c == 'X' || c == 'x')
@@ -49,7 +49,7 @@ namespace EquParser
 	}
 
 	// Handle X when evaluating equation
-	bool VariableEquation::handle_term(const std::string term, std::stack<double> & result_stack)
+	bool VariableEquation::handle_term(const std::string term, std::stack<double> & result_stack) const
 	{
 		if (term == "X")
 		{

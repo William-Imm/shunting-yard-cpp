@@ -18,16 +18,16 @@ namespace EquParser
 	protected:
 		// Rules for handling characters in raw infix equation
 		void convert_to_rpn();
-		virtual bool handle_input(const char c, std::deque<std::string> & output_queue, std::stack<char> & operator_stack);
-		virtual bool handle_term(const std::string term, std::stack<double> & result_stack);
+		virtual bool handle_input(const char c, std::deque<std::string> & output_queue, std::stack<char> & operator_stack) const;
+		virtual bool handle_term(const std::string term, std::stack<double> & result_stack) const;
 	public:
 		Equation(); // default, blank constructor
 		Equation(const std::string & equation);
 		virtual ~Equation();
-		double evaluate();
+		double evaluate() const;
 		std::string get_infix_equation() const;
-		std::queue<std::string> get_rpn_equation();
-		std::string rpn_to_string();
-		friend std::ostream & operator<<(std::ostream & os, Equation equation);
+		std::queue<std::string> get_rpn_equation() const;
+		std::string rpn_to_string() const;
+		friend std::ostream & operator<<(std::ostream & os, const Equation & equation);
 	};
 }
