@@ -25,10 +25,10 @@ namespace EquParser
 		Equation(const std::string & equation);
 		virtual ~Equation();
 		double evaluate() const;
-		std::string get_infix_equation() const;
-		void set_infix_equation(const std::string & equation);
-		std::queue<std::string> get_rpn_equation() const;
-		std::string rpn_to_string() const;
+		std::string infix() const;
+		void infix(const std::string & equation);
+		std::queue<std::string> rpn() const;
+		std::string rpn_tostring() const;
 		friend std::ostream & operator<<(std::ostream & os, const Equation & equation);
 	};
 }

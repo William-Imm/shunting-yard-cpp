@@ -39,26 +39,26 @@ namespace EquParser
 	}
 
 	// Simply returns the raw infix equation string
-	std::string Equation::get_infix_equation() const
+	std::string Equation::infix() const
 	{
 		return infix_equation;
 	}
 
 	// And set the raw infix equation, running the parse function
-	void Equation::set_infix_equation(const std::string & equation)
+	void Equation::infix(const std::string & equation)
 	{
 		infix_equation = equation;
 		convert_to_rpn();
 	}
 
 	// Returns the RPN equation as its native queue format
-	std::queue<std::string> Equation::get_rpn_equation() const
+	std::queue<std::string> Equation::rpn() const
 	{
 		return rpn_equation;
 	}
 
 	// Create a string representation of the RPN formatted equation
-	std::string Equation::rpn_to_string() const 
+	std::string Equation::rpn_tostring() const 
 	{
 		std::queue<std::string> clone_queue(rpn_equation);
 		std::string result;
@@ -283,7 +283,7 @@ namespace EquParser
 	// Allow direct printing of equation in RPN form
 	std::ostream & operator<<(std::ostream & os, const Equation & equation)
 	{
-		os << equation.rpn_to_string();
+		os << equation.rpn_tostring();
 		return os;
 	}
 }

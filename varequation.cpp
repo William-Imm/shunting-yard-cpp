@@ -9,24 +9,24 @@ namespace EquParser
 {
 	VariableEquation::VariableEquation()
 	{
-		x = 0.0;
+		varx = 0.0;
 	}
 	
 	VariableEquation::VariableEquation(const std::string & equation) : Equation()
 	{
-		x = 0.0;
-		set_infix_equation(equation);
+		varx = 0.0;
+		infix(equation);
 	}
 
 	VariableEquation::VariableEquation(const std::string & equation, const double x) : Equation()
 	{
-		this->x = x;
-		set_infix_equation(equation);
+		varx = x;
+		infix(equation);
 	}
 
 	VariableEquation::VariableEquation(const Equation & equation, const double x) : Equation(equation)
 	{
-		this->x = x;
+		varx = x;
 		convert_to_rpn();
 	}
 
@@ -64,7 +64,7 @@ namespace EquParser
 	{
 		if (term == "X")
 		{
-			result_stack.push(x);
+			result_stack.push(varx);
 			return true;
 		}
 		return false;
