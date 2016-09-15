@@ -44,6 +44,13 @@ namespace EquParser
 		return infix_equation;
 	}
 
+	// And set the raw infix equation, running the parse function
+	void Equation::set_infix_equation(const std::string & equation)
+	{
+		infix_equation = equation;
+		convert_to_rpn();
+	}
+
 	// Returns the RPN equation as its native queue format
 	std::queue<std::string> Equation::get_rpn_equation() const
 	{

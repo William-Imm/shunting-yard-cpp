@@ -12,22 +12,22 @@ namespace EquParser
 		x = 0.0;
 	}
 	
-	VariableEquation::VariableEquation(const std::string & equation) : Equation(equation)
+	VariableEquation::VariableEquation(const std::string & equation) : Equation()
 	{
 		x = 0.0;
-		convert_to_rpn();
+		set_infix_equation(equation);
 	}
 
-	VariableEquation::VariableEquation(const std::string & equation, const double x) : Equation(equation)
+	VariableEquation::VariableEquation(const std::string & equation, const double x) : Equation()
 	{
 		this->x = x;
-		convert_to_rpn();
+		set_infix_equation(equation);
 	}
 
 	VariableEquation::VariableEquation(const Equation & equation, const double x) : Equation(equation)
 	{
 		this->x = x;
-		convert_to_rpn();
+		set_infix_equation(equation.get_infix_equation());
 	}
 
 	// Handle X variable in infix
