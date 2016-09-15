@@ -27,7 +27,7 @@ namespace EquParser
 	VariableEquation::VariableEquation(const Equation & equation, const double x) : Equation(equation)
 	{
 		this->x = x;
-		set_infix_equation(equation.get_infix_equation());
+		convert_to_rpn();
 	}
 
 	// Handle X variable in infix
