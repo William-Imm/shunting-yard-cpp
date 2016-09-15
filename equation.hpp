@@ -15,8 +15,8 @@ namespace EquParser
 	private:
 		std::string infix_equation = "";
 		std::queue<std::string> rpn_equation;
-	protected:
 		void convert_to_rpn();
+	protected:
 		// Rules for handling characters in raw infix equation
 		virtual bool handle_input(const char c, std::deque<std::string> & output_queue, std::stack<char> & operator_stack) const;
 		virtual bool handle_term(const std::string term, std::stack<double> & result_stack) const;

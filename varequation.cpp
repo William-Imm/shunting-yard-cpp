@@ -27,7 +27,6 @@ namespace EquParser
 	VariableEquation::VariableEquation(const Equation & equation, const double x) : Equation(equation)
 	{
 		varx = x;
-		convert_to_rpn();
 	}
 
 	// Handle X variable in infix
