@@ -12,21 +12,14 @@ namespace EquParser
 		varx = 0.0;
 	}
 	
-	VariableEquation::VariableEquation(const std::string & equation) : Equation()
+	VariableEquation::VariableEquation(const std::string & equation, const double x) : Equation(), varx(x)
 	{
-		varx = 0.0;
 		infix(equation);
 	}
 
-	VariableEquation::VariableEquation(const std::string & equation, const double x) : Equation()
+	VariableEquation::VariableEquation(const Equation & equation, const double x) : Equation(equation), varx(x)
 	{
-		varx = x;
-		infix(equation);
-	}
-
-	VariableEquation::VariableEquation(const Equation & equation, const double x) : Equation(equation)
-	{
-		varx = x;
+		// Left blank
 	}
 
 	// Handle X variable in infix

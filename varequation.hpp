@@ -16,9 +16,8 @@ namespace EquParser
 			virtual bool handle_term(const std::string term, std::stack<double> & result_stack) const;
 		public:
 			VariableEquation();
-			VariableEquation(const std::string & equation);
-			VariableEquation(const std::string & equation, const double x);
-			VariableEquation(const Equation & equation, const double x);
+			VariableEquation(const std::string & equation, const double x = 0.0);
+			VariableEquation(const Equation & equation, const double x = 0.0);
 			double x() const { return varx; }
 			void x(const double x) { varx = x; }
 	};
