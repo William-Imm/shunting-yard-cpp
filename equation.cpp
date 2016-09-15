@@ -28,7 +28,7 @@ namespace EquParser
 		// This makes the linker happy.
 	}
 
-	bool Equation::handle_input(const char c, std::deque<std::string> & output_queue, std::stack<char> & operator_stack)
+	bool Equation::handle_input(const char c, std::deque<std::string> & output_queue, std::stack<char> & operator_stack) const
 	{
 		return false;
 	}
@@ -204,7 +204,13 @@ namespace EquParser
 			}
 			// Parenthesis open, add to operator stack
 			else if (c == '(')
+			{
+				// If the preciding result was a number, add an additional multiply operator
+				string prev_string = output_queue.back();
+				if (isdigit(prev_string[0],loc))
+					operator_stack.push('*');
 				operator_stack.push(c);
+			}
 			// Partnthesis close, push all operators after parenthesis open to output queue
 			else if (c == ')')
 			{

@@ -41,8 +41,19 @@ namespace EquParser
 			// If last term is a digit, mutiply it by X
 			if (isdigit(last_term[0], loc))
 			{
-				output_queue.push_back("*");
+				operator_stack.push('*');
 			}
+			return true;
+		}
+		else if (c == '(')
+		{
+			// Special case for X variable, add an additional multiply operator if it preceeds the open parenthesis (like a number)
+			std::string last_term = output_queue.back();
+			if (last_term[0] == 'X' || isdigit(last_term[0], loc))
+			{
+				operator_stack.push('*');
+			}
+			operator_stack.push(c);
 			return true;
 		}
 		return false;
