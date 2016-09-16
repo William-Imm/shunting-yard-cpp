@@ -74,7 +74,7 @@ namespace EquParser
 	// Evaluates the equation from stored queue and returns the result.
 	double Equation::evaluate() const
 	{
-		using std::cout;
+		using std::cerr;
 		using std::endl;
 		using std::string;
 		std::stack<double> result_stack;
@@ -131,7 +131,7 @@ namespace EquParser
 				}
 				catch (std::runtime_error& e)
 				{
-					cout << "Exception: " << e.what() << endl;
+					cerr << "Exception: " << e.what() << endl;
 					exit(EXIT_FAILURE);
 				}
 			}
@@ -144,7 +144,7 @@ namespace EquParser
 		}
 		else
 		{
-			cout << "Error: Too many values in result stack" << endl;
+			cerr << "Error: Too many values in result stack" << endl;
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -230,7 +230,7 @@ namespace EquParser
 						operator_stack.pop();
 						if (operator_stack.empty())
 						{
-							std::cout << "Error: Unclosed parenthesis expression. Exiting." << std::endl;
+							std::cerr << "Error: Unclosed parenthesis expression. Exiting." << std::endl;
 							exit(EXIT_FAILURE);
 						}
 						top_operator = operator_stack.top();
@@ -239,7 +239,7 @@ namespace EquParser
 				}
 				else 
 				{
-					std::cout << "Error: Cannot close a parenthesis with no operators. Exiting." << std::endl;
+					std::cerr << "Error: Cannot close a parenthesis with no operators. Exiting." << std::endl;
 					exit(EXIT_FAILURE);
 				}
 			}
