@@ -44,7 +44,7 @@ namespace EquParser
 			// If last term is a digit, mutiply it by X
 			if (!empty && last_added == Queue && isdigit(last_term[0], loc))
 			{
-				operator_stack.push('*');
+				output_queue.push_back("*");
 			}
 			return true;
 		}
