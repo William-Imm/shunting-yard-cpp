@@ -258,8 +258,8 @@ namespace EquParser
 			// Operator - add to stack
 			else
 			{
-				// If the new operator has greater presiddence over the last operator, push last operator to queue
-				if (!operator_stack.empty())
+				// If the new operator has greater presidence over the other operators in stack, push last operator to queue
+				while (!operator_stack.empty())
 				{
 					char top_operator = operator_stack.top();
 					if (precendence_less_than(c, top_operator))
@@ -267,6 +267,8 @@ namespace EquParser
 						output_queue.push_back(string(1, top_operator));
 						operator_stack.pop();
 					}
+					else
+						break;
 				}
 				operator_stack.push(c);
 				last_added = Stack;
