@@ -13,8 +13,8 @@
 const int screen_width = 800;
 const int screen_height = 600;
 
-const int x_scale = 10;
-const int y_scale = 10;
+const int x_scale = 20;
+const int y_scale = 20;
 
 SDL_Window* window = nullptr;
 SDL_GLContext gl_context;
@@ -133,6 +133,20 @@ void renderGrid()
 		glVertex2f(0, (screen_height / 2.f));
 		glVertex2f(-(screen_width / 2.f), 0);
 		glVertex2f((screen_width / 2.f), 0);
+	glEnd();
+
+	// Render guide points
+	glPointSize(3);
+	int y_start = -(screen_height / 2) + (screen_height / y_scale);
+	int x_start = -(screen_width / 2) + (screen_width / x_scale);
+	glBegin(GL_POINTS);
+		for (int y = y_start; y < (screen_height / 2); y += (screen_height / y_scale))
+		{
+			for (int x = x_start; x < (screen_width / 2); x += (screen_width / x_scale))
+			{
+				glVertex2f(x, y);
+			}
+		}
 	glEnd();
 }
 
