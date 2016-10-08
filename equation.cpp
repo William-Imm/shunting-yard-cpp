@@ -28,7 +28,7 @@ namespace EquParser
 		// This makes the linker happy.
 	}
 
-	bool Equation::handle_input(const char c, std::deque<std::string> & output_queue, std::stack<char> & operator_stack) const
+	bool Equation::handle_input(const char c, std::deque<std::string> & output_queue, std::stack<char> & operator_stack, LastAdded last_added) const
 	{
 		return false;
 	}
@@ -165,6 +165,8 @@ namespace EquParser
 		std::stack<char> operator_stack;
 		std::locale loc;
 
+		LastAdded last_added = None; 
+
 		bool decimal = false;
 
 		// Loop through equation and use shunting yard algorithm to handle it
@@ -177,7 +179,7 @@ namespace EquParser
 			}
 
 			// First process special rules:
-			if (handle_input(c, output_queue, operator_stack))
+			if (handle_input(c, output_queue, operator_stack, last_added))
 				continue;
 			// Whitespace or alphabetical characters are ignored.
 			else if (isspace(c, loc) || isalpha(c, loc))
@@ -196,6 +198,7 @@ namespace EquParser
 				else
 					// Make a new number on the queue
 					output_queue.push_back(string(1, c));
+				last_added = Queue;
 			}
 			// With a decimal point, start a decimal number (if one isn't already started)
 			else if (c == '.')
@@ -211,6 +214,7 @@ namespace EquParser
 						prev_string.push_back('.');
 						output_queue.push_back(prev_string);
 						decimal = true;
+						last_added = Queue;
 					}
 					else
 						continue;
@@ -224,6 +228,7 @@ namespace EquParser
 				if (isdigit(prev_string[0],loc))
 					operator_stack.push('*');
 				operator_stack.push(c);
+				last_added = Stack;
 			}
 			// Partnthesis close, push all operators after parenthesis open to output queue
 			else if (c == ')')
@@ -264,6 +269,7 @@ namespace EquParser
 					}
 				}
 				operator_stack.push(c);
+				last_added = Stack;
 			}
 
 		}

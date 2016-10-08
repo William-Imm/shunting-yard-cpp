@@ -28,7 +28,7 @@ namespace EquParser
 	}
 
 	// Handle X variable in infix
-	bool VariableEquation::handle_input(const char c, std::deque<std::string> & output_queue, std::stack<char> & operator_stack) const
+	bool VariableEquation::handle_input(const char c, std::deque<std::string> & output_queue, std::stack<char> & operator_stack, LastAdded last_added) const
 	{
 		std::locale loc;
 		std::string last_term;
@@ -42,7 +42,7 @@ namespace EquParser
 			}
 			output_queue.push_back("X");
 			// If last term is a digit, mutiply it by X
-			if (!empty && isdigit(last_term[0], loc))
+			if (!empty && last_added == Queue && isdigit(last_term[0], loc))
 			{
 				operator_stack.push('*');
 			}
