@@ -159,7 +159,7 @@ void renderLine(EquParser::VariableEquation equation)
 			for (int offset = x * pixels_to_x; offset < (pixels_to_x * (x + 1)); offset++)
 			{
 				equation.x(x + (offset / (double) (pixels_to_x)));
-				glVertex2f(-(screen_width / 2) + (x * pixels_to_x) + offset, (float) (equation.evaluate() * (screen_height / y_scale) - (screen_height / 2)));
+				glVertex2f((x * pixels_to_x) + offset, (float) (equation.evaluate() * (screen_height / y_scale)));
 			}
 		}
 	glEnd();
