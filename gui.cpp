@@ -143,8 +143,23 @@ void renderGrid()
 		for (int y = y_start; y < (screen_height / 2); y += (screen_height / y_scale))
 		{
 			for (int x = x_start; x < (screen_width / 2); x += (screen_width / x_scale))
-			{
 				glVertex2f(x, y);
+		}
+	glEnd();
+}
+
+void renderLine(EquParser::VariableEquation equation)
+{
+	int pixels_to_x = (screen_width / x_scale); 
+
+	glLineWidth(2);
+	glBegin(GL_LINE_STRIP);
+		for (int x = -(x_scale / 2); x <= (x_scale / 2); ++x)
+		{
+			for (int offset = x * pixels_to_x; offset < (pixels_to_x * (x + 1)); offset++)
+			{
+				equation.x(x + (offset / (double) pixels_to_x));
+				glVertex2f(-(screen_width / 2) + (x * pixels_to_x) + offset, (float) (equation.evaluate() * (screen_height / y_scale) - (screen_height / 2)));
 			}
 		}
 	glEnd();
@@ -160,8 +175,17 @@ void close()
 
 int main(int argc, char* argv[])
 {
+	std::string expression;
+	using EquParser::VariableEquation;
+
+	std::cout << "Enter an expression: ";
+	std::getline(std::cin, expression);
+	VariableEquation equation(expression);
+	std::cout << equation << std::endl;
+
 	if (init())
 	{
+	  std::cout << "Plotting graphical equation, hit ESC or close window to continue" << std::endl;
 		bool quit = false;
 
 		SDL_Event e;
@@ -179,6 +203,7 @@ int main(int argc, char* argv[])
 				}
 			}
 			renderGrid();
+			renderLine(equation);
 			SDL_GL_SwapWindow(window);
 		}
 	}

@@ -27,6 +27,7 @@
 *.out
 *.app
 rpn_evaluate
+gui
 
 # Vim swap files
 *.swp

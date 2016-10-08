@@ -11,6 +11,11 @@ namespace EquParser
 	{
 		varx = 0.0;
 	}
+
+	VariableEquation::VariableEquation(const char * equation, const double x) : Equation(), varx(x)
+	{
+		infix(equation);
+	}
 	
 	VariableEquation::VariableEquation(const std::string & equation, const double x) : Equation(), varx(x)
 	{
@@ -26,12 +31,18 @@ namespace EquParser
 	bool VariableEquation::handle_input(const char c, std::deque<std::string> & output_queue, std::stack<char> & operator_stack) const
 	{
 		std::locale loc;
+		std::string last_term;
+		bool empty = true;
 		if (c == 'X' || c == 'x')
 		{
-			std::string last_term = output_queue.back();
+			if (!output_queue.empty())
+			{
+				last_term = output_queue.back();
+				empty = false;
+			}
 			output_queue.push_back("X");
 			// If last term is a digit, mutiply it by X
-			if (isdigit(last_term[0], loc))
+			if (!empty && isdigit(last_term[0], loc))
 			{
 				operator_stack.push('*');
 			}
