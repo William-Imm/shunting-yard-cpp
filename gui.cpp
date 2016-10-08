@@ -29,7 +29,7 @@ bool initGL();
 void renderGrid();
 
 // Render line, given a VariableEquation
-void renderLine(EquParser::VariableEquation equation);
+void renderLine(EquParser::VariableEquation & equation);
 
 // Close SDL and free memory
 void close();
@@ -148,7 +148,7 @@ void renderGrid()
 	glEnd();
 }
 
-void renderLine(EquParser::VariableEquation equation)
+void renderLine(EquParser::VariableEquation & equation)
 {
 	int pixels_to_x = (screen_width / x_scale); 
 
