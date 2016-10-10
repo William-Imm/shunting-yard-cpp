@@ -1,17 +1,24 @@
 CC=clang++
+UNAME_S=$(shell uname -s)
 
-CFLAGS=-c -g -Wall -std=c++11 -I/usr/include/SDL2
+CXXFLAGS=-c -g -Wall -std=c++11 -I/usr/include/SDL2
+LDFLAGS=
+ifeq ($(UNAME_S),Darwin)
+	LDFLAGS += -framework SDL2
+else
+	LDFLAGS += -lSDL2 -lGL
+endif
 
 all: rpn_evaluate gui
 
 gui: equation.o gui.o utility.o varequation.o
-	$(CC) equation.o gui.o utility.o varequation.o -o gui -lSDL2 -lGL -lGLU
+	$(CC) -lSDL2 -lGL -o $@ $+
 
 rpn_evaluate: equation.o main.o utility.o varequation.o
-	$(CC) equation.o main.o utility.o varequation.o -o rpn_evaluate
+	$(CC) -o $@ $+
 
 %.o: %.cpp
-	$(CC) $(CFLAGS) -o $@ $<
+	$(CC) $(CXXFLAGS) -o $@ $<
 
 clean:
 	rm -f *.o rpn_evaluate gui

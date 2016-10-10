@@ -6,7 +6,6 @@
 
 #include <SDL.h>
 #include <SDL_opengl.h>
-#include <GL/glu.h>
 
 #include "varequation.hpp"
 
@@ -24,6 +23,9 @@ bool init();
 
 // Initalize GL subsystem
 bool initGL();
+
+// Initalize renderer (required before running other functions)
+void renderInit();
 
 // Render grid to screen
 void renderGrid();
@@ -105,14 +107,14 @@ bool initGL()
 	GLenum error = glGetError();
 	if (error != GL_NO_ERROR)
 	{
-		std::cerr << "Cannot initalize OpenGL. Reason: " << gluErrorString(error);
+		std::cerr << "Cannot initalize OpenGL!" << std::endl;
 		return false;
 	}
 
 	return true;
 }
 
-void renderGrid()
+void renderInit()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -125,7 +127,10 @@ void renderGrid()
 	
 	// Set drawing color
 	glColor3f(0.f, 0.f, 0.f);
+}
 
+void renderGrid()
+{
 	// Render origin lines
 	glLineWidth(4);
 	glBegin(GL_LINES);
@@ -156,7 +161,7 @@ void renderLine(EquParser::VariableEquation & equation)
 	glBegin(GL_LINE_STRIP);
 		for (int x = -(x_scale / 2); x <= (x_scale / 2); ++x)
 		{
-			for (int offset = x * pixels_to_x; offset < (pixels_to_x * (x + 1)); offset++)
+			for (int offset = x * pixels_to_x; offset < (pixels_to_x * (x + 1)); ++offset)
 			{
 				equation.x(x + (offset / (double) (pixels_to_x)));
 				glVertex2f((x * pixels_to_x) + offset, (float) (equation.evaluate() * (screen_height / y_scale)));
@@ -202,6 +207,7 @@ int main(int argc, char* argv[])
 						quit = true;
 				}
 			}
+			renderInit();
 			renderGrid();
 			renderLine(equation);
 			SDL_GL_SwapWindow(window);
