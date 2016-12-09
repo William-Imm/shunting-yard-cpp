@@ -1,10 +1,10 @@
 CC=clang++
 UNAME_S=$(shell uname -s)
 
-CXXFLAGS=-c -g -Wall -std=c++11 -I/usr/include/SDL2 -I/usr/local/include/SDL2
+CXXFLAGS=-c -g -Wall -std=c++11
 LDFLAGS=
 ifeq ($(UNAME_S),Darwin)
-	LDFLAGS += -framework SDL2
+	LDFLAGS += -framework SDL2 -framework OpenGL
 else
 	LDFLAGS += -lSDL2 -lGL
 endif

@@ -4,8 +4,8 @@
 #include <iostream>
 #include <string>
 
-#include <SDL.h>
-#include <SDL_opengl.h>
+#include <SDl2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 
 #include "varequation.hpp"
 
