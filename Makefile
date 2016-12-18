@@ -1,4 +1,4 @@
-CC=clang++
+CC=c++
 UNAME_S=$(shell uname -s)
 
 CXXFLAGS=-c -g -Wall -std=c++11
