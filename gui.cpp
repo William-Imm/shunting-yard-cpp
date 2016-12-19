@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
@@ -180,13 +181,40 @@ void close()
 
 int main(int argc, char* argv[])
 {
-	std::string expression;
+	using std::cout;
+	using std::cin;
+	using std::endl;
 	using EquParser::VariableEquation;
 
-	std::cout << "Enter an expression: ";
-	std::getline(std::cin, expression);
-	VariableEquation equation(expression);
-	std::cout << equation << std::endl;
+	unsigned int equation_count = 0;
+	bool input_valid = false;
+	cout << "Enter how many equations to plot: ";
+	while (!input_valid)
+	{
+		std::cin >> equation_count;
+		if (!std::cin) // invalid input
+		{
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cout << "Invalid input. Enter how many equations to plot: ";
+		}
+		else
+		{
+			input_valid = true;
+		}
+}
+
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	std::string expression;
+	std::vector<VariableEquation> equation_vector;
+	for (int i = 0; i < equation_count; ++i)
+	{
+		cout << "Enter an expression: ";
+		getline(cin, expression);
+		VariableEquation equation(expression);
+		equation_vector.push_back(equation);
+		cout << equation << endl;
+	}
 
 	if (init())
 	{
@@ -209,7 +237,8 @@ int main(int argc, char* argv[])
 			}
 			renderInit();
 			renderGrid();
-			renderLine(equation);
+			for (VariableEquation equation : equation_vector)
+				renderLine(equation);
 			SDL_GL_SwapWindow(window);
 		}
 	}
