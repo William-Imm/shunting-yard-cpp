@@ -8,6 +8,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 
+#include "color.hpp"
 #include "varequation.hpp"
 
 const int screen_width = 800;
@@ -125,13 +126,13 @@ void renderInit()
 
 	// Move created objects to center of screen
 	glTranslatef(screen_width / 2.f, screen_height / 2.f, 0.f);
-	
-	// Set drawing color
-	glColor3f(0.f, 0.f, 0.f);
 }
 
 void renderGrid()
 {
+	// Set drawing color
+	glColor3f(0.f, 0.f, 0.f);
+
 	// Render origin lines
 	glLineWidth(4);
 	glBegin(GL_LINES);
@@ -154,8 +155,11 @@ void renderGrid()
 	glEnd();
 }
 
-void renderLine(EquParser::VariableEquation & equation)
+void renderLine(EquParser::VariableEquation & equation, EquParser::Color color)
 {
+	// Set drawing color
+	glColor3f(color.red, color.green, color.blue);
+
 	int pixels_to_x = (screen_width / x_scale); 
 
 	glLineWidth(2);
@@ -191,8 +195,8 @@ int main(int argc, char* argv[])
 	cout << "Enter how many equations to plot: ";
 	while (!input_valid)
 	{
-		std::cin >> equation_count;
-		if (!std::cin) // invalid input
+		cin >> equation_count;
+		if (!cin) // invalid input
 		{
 			cin.clear();
 			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -206,13 +210,22 @@ int main(int argc, char* argv[])
 
 	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	std::string expression;
-	std::vector<VariableEquation> equation_vector;
+
+	struct ColorVarEq { VariableEquation equation; EquParser::Color color; };
+	std::vector<ColorVarEq> equation_vector;
 	for (int i = 0; i < equation_count; ++i)
 	{
 		cout << "Enter an expression: ";
 		getline(cin, expression);
 		VariableEquation equation(expression);
-		equation_vector.push_back(equation);
+		cout << "Avaliable colors:" << endl;
+		for (int j = 0; j < sizeof(EquParser::Colors) / sizeof(*EquParser::Colors); j++)
+			cout << EquParser::Colors[j].name << " (" << j << ")" << endl;
+		cout << "Select a color: ";
+		int color_select;
+		cin >> color_select; // TODO: Error correcting
+	  cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		equation_vector.push_back({equation, EquParser::Colors[color_select]});
 		cout << equation << endl;
 	}
 
@@ -237,8 +250,8 @@ int main(int argc, char* argv[])
 			}
 			renderInit();
 			renderGrid();
-			for (VariableEquation equation : equation_vector)
-				renderLine(equation);
+			for (ColorVarEq equation_color : equation_vector)
+				renderLine(equation_color.equation, equation_color.color);
 			SDL_GL_SwapWindow(window);
 		}
 	}
