@@ -166,10 +166,11 @@ void renderLine(EquParser::VariableEquation & equation, EquParser::Color color)
 	glBegin(GL_LINE_STRIP);
 		for (int x = -(x_scale / 2); x <= (x_scale / 2); ++x)
 		{
-			for (int offset = x * pixels_to_x; offset < (pixels_to_x * (x + 1)); ++offset)
+			for (int offset = x * pixels_to_x; offset < (pixels_to_x * (x + 2)); ++offset)
 			{
-				equation.x(x + (offset / (double) (pixels_to_x)));
-				glVertex2f((x * pixels_to_x) + offset, (float) (equation.evaluate() * (screen_height / y_scale)));
+				double x_difference = offset / (double) pixels_to_x;
+				equation.x(x + x_difference);
+				glVertex2d((x * pixels_to_x) + offset, equation.evaluate() * (screen_height / (double) y_scale));
 			}
 		}
 	glEnd();
