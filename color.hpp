@@ -17,10 +17,11 @@ namespace EquParser
 		Color(std::string name, float red, float green, float blue) : name(name), red(red), green(green), blue(blue) { }
 	};
 
-	const Color Colors[3] =
+	const Color Colors[4] =
 	{
 		{ "Black", 0.0f, 0.0f, 0.0f },
 		{ "Red", 1.0f, 0.0f, 0.0f },
-		{ "Green", 0.0f, 1.0f, 0.0f }
+		{ "Green", 0.0f, 1.0f, 0.0f },
+		{ "Blue", 0.0f, 0.0f, 1.0f }
 	};
 }
