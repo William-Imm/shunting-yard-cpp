@@ -155,7 +155,7 @@ void renderGrid()
 	glEnd();
 }
 
-void renderLine(EquParser::VariableEquation & equation, EquParser::Color color)
+void renderLine(EquParser::VariableEquation & equation, const EquParser::Color color)
 {
 	// Set drawing color
 	glColor3f(color.red, color.green, color.blue);
@@ -207,7 +207,7 @@ int main(int argc, char* argv[])
 		{
 			input_valid = true;
 		}
-}
+	}
 
 	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	std::string expression;

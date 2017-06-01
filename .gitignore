@@ -35,3 +35,6 @@ gui
 # YouCompleteMe files
 .ycm_extra_conf.py
 __pycache__
+
+# Personal scratch file
+PersonalNotes
