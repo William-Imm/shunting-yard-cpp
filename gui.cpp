@@ -200,16 +200,14 @@ int main(int argc, char* argv[])
 		if (!cin) // invalid input
 		{
 			cin.clear();
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			cout << "Invalid input. Enter how many equations to plot: ";
 		}
 		else
 		{
 			input_valid = true;
 		}
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
-
-	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	std::string expression;
 
 	struct ColorVarEq { VariableEquation equation; EquParser::Color color; };
@@ -222,12 +220,26 @@ int main(int argc, char* argv[])
 		cout << "Avaliable colors:" << endl;
 		for (int j = 0; j < sizeof(EquParser::Colors) / sizeof(*EquParser::Colors); j++)
 			cout << EquParser::Colors[j].name << " (" << j << ")" << endl;
+		bool color_selected = false;
 		cout << "Select a color: ";
-		int color_select;
-		cin >> color_select; // TODO: Error correcting
-	  cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		equation_vector.push_back({equation, EquParser::Colors[color_select]});
+		while (!color_selected)
+		{
+			int color_select;
+			cin >> color_select;
+			if (color_select > ((sizeof(EquParser::Colors) / sizeof(*EquParser::Colors)) - 1) || color_select < 0 || !cin)
+			{
+				cin.clear();
+				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				cout << "Invalid response, select a color: ";
+			}
+			else
+			{
+				equation_vector.push_back({equation, EquParser::Colors[color_select]});
+				color_selected = true;
+			}
+		}
 		cout << equation << endl;
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
 
 	if (init())
