@@ -26,7 +26,7 @@ bool init();
 // Initalize GL subsystem
 bool initGL();
 
-// Initalize renderer (required before running other functions)
+// Initalize renderer (required before running other rendering functions)
 void renderInit();
 
 // Render grid to screen
@@ -168,8 +168,7 @@ void renderLine(EquParser::VariableEquation & equation, const EquParser::Color c
 		{
 			for (int offset = x * pixels_to_x; offset < (pixels_to_x * (x + 2)); ++offset)
 			{
-				double x_difference = offset / (double) pixels_to_x;
-				equation.x(x + x_difference);
+				equation.x(x + offset / (double) pixels_to_x);
 				glVertex2d((x * pixels_to_x) + offset, equation.evaluate() * (screen_height / (double) y_scale));
 			}
 		}
@@ -191,42 +190,47 @@ int main(int argc, char* argv[])
 	using std::endl;
 	using EquParser::VariableEquation;
 
-	unsigned int equation_count = 0;
-	bool input_valid = false;
-	cout << "Enter how many equations to plot: ";
-	while (!input_valid)
+	// Grab the number of equations to plot
+	int equation_count = 0;
+	bool num_equations_selected = false;
+	cout << "Enter how many equations to plot (0 to exit): ";
+	while (!num_equations_selected)
 	{
 		cin >> equation_count;
-		if (!cin) // invalid input
+		if (!cin || equation_count < 0) // check for invalid input and negative number of equations
 		{
 			cin.clear();
-			cout << "Invalid input. Enter how many equations to plot: ";
+			cout << "Invalid response, enter how many equations to plot (0 to exit): ";
 		}
+		else if (equation_count == 0)
+			std::exit(EXIT_SUCCESS);
 		else
-		{
-			input_valid = true;
-		}
+			num_equations_selected = true;
 		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
-	std::string expression;
 
+	// For each equation, assign an expression and color
 	struct ColorVarEq { VariableEquation equation; EquParser::Color color; };
 	std::vector<ColorVarEq> equation_vector;
+	int num_colors = sizeof(EquParser::Colors) / sizeof(*EquParser::Colors);
 	for (int i = 0; i < equation_count; ++i)
 	{
+		// Grab an expression and create a variable equation from it
+		std::string expression;
 		cout << "Enter an expression: ";
 		getline(cin, expression);
 		VariableEquation equation(expression);
+		// List avaiable color presets, and select from user input
 		cout << "Avaliable colors:" << endl;
-		for (int j = 0; j < sizeof(EquParser::Colors) / sizeof(*EquParser::Colors); j++)
+		for (int j = 0; j < num_colors; j++)
 			cout << EquParser::Colors[j].name << " (" << j << ")" << endl;
 		bool color_selected = false;
 		cout << "Select a color: ";
 		while (!color_selected)
 		{
-			int color_select;
+			int color_select = 0;
 			cin >> color_select;
-			if (color_select > ((sizeof(EquParser::Colors) / sizeof(*EquParser::Colors)) - 1) || color_select < 0 || !cin)
+			if (!cin || color_select < 0 || color_select > (num_colors - 1)) // check for invalid input and out of bounds color selection
 			{
 				cin.clear();
 				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -242,23 +246,24 @@ int main(int argc, char* argv[])
 		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
 
+	// Now actually plot the equations
 	if (init())
 	{
-	  std::cout << "Plotting graphical equation, hit ESC or close window to continue" << std::endl;
-		bool quit = false;
+		cout << "Plotting graphical equation(s), hit ESC or close window to continue" << endl;
+		bool running = true;
 
 		SDL_Event e;
 
-		while (!quit)
+		while (running)
 		{
 			while (SDL_PollEvent(&e) != 0)
 			{
 				if (e.type == SDL_QUIT)
-					quit = true;
+					running = false;
 				else if (e.type == SDL_KEYDOWN)
 				{
 					if (e.key.keysym.sym == SDLK_ESCAPE)
-						quit = true;
+						running = false;
 				}
 			}
 			renderInit();
