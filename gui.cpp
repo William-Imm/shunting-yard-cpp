@@ -190,6 +190,7 @@ int main(int argc, char* argv[])
 	using std::cin;
 	using std::endl;
 	using EquParser::VariableEquation;
+	using EquParser::Color;
 
 	// Grab the number of equations to plot
 	int equation_count = 0;
@@ -211,7 +212,7 @@ int main(int argc, char* argv[])
 	}
 
 	// For each equation, assign an expression and color
-	std::vector<std::pair<VariableEquation, EquParser::Color>> equation_color_vector;
+	std::vector<std::pair<VariableEquation, Color>> equation_color_vector;
 	int num_colors = sizeof(EquParser::Colors) / sizeof(*EquParser::Colors);
 	for (int i = 0; i < equation_count; ++i)
 	{
