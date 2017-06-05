@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <SDL2/SDL.h>
@@ -210,8 +211,7 @@ int main(int argc, char* argv[])
 	}
 
 	// For each equation, assign an expression and color
-	struct ColorVarEq { VariableEquation equation; EquParser::Color color; };
-	std::vector<ColorVarEq> equation_vector;
+	std::vector<std::pair<VariableEquation, EquParser::Color>> equation_color_vector;
 	int num_colors = sizeof(EquParser::Colors) / sizeof(*EquParser::Colors);
 	for (int i = 0; i < equation_count; ++i)
 	{
@@ -238,7 +238,7 @@ int main(int argc, char* argv[])
 			}
 			else
 			{
-				equation_vector.push_back({equation, EquParser::Colors[color_select]});
+				equation_color_vector.push_back({equation, EquParser::Colors[color_select]});
 				color_selected = true;
 			}
 		}
@@ -268,8 +268,8 @@ int main(int argc, char* argv[])
 			}
 			renderInit();
 			renderGrid();
-			for (ColorVarEq equation_color : equation_vector)
-				renderLine(equation_color.equation, equation_color.color);
+			for (auto equation_color : equation_color_vector)
+				renderLine(equation_color.first, equation_color.second);
 			SDL_GL_SwapWindow(window);
 		}
 	}
