@@ -161,7 +161,7 @@ void renderLine(EquParser::VariableEquation & equation, const EquParser::Color c
 	// Set drawing color
 	glColor3f(color.red, color.green, color.blue);
 
-	int pixels_to_x = (screen_width / x_scale); 
+	int pixels_to_x = (screen_width / x_scale);
 
 	glLineWidth(2);
 	glBegin(GL_LINE_STRIP);
@@ -274,6 +274,6 @@ int main(int argc, char* argv[])
 			SDL_GL_SwapWindow(window);
 		}
 	}
-	
+
 	close();
 }

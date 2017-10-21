@@ -17,7 +17,7 @@ namespace EquParser
 	{
 		// This space intentionally left blank
 	}
-	
+
 	Equation::Equation(const std::string & equation) : infix_equation(equation)
 	{
 		convert_to_rpn();
@@ -65,7 +65,7 @@ namespace EquParser
 	}
 
 	// Create a string representation of the RPN formatted equation
-	std::string Equation::rpn_tostring() const 
+	std::string Equation::rpn_tostring() const
 	{
 		std::queue<std::string> clone_queue(rpn_equation);
 		std::string result;
@@ -111,7 +111,7 @@ namespace EquParser
 			else
 			{
 				// It's a operator, attempt to parse it
-				try 
+				try
 				{
 					switch (term[0])
 					{
@@ -165,7 +165,7 @@ namespace EquParser
 		std::stack<char> operator_stack;
 		std::locale loc;
 
-		LastAdded last_added = None; 
+		LastAdded last_added = None;
 
 		bool decimal = false;
 
@@ -249,7 +249,7 @@ namespace EquParser
 					}
 					operator_stack.pop(); // get rid of used parenthesis
 				}
-				else 
+				else
 				{
 					std::cerr << "Error: Cannot close a parenthesis with no operators. Exiting." << std::endl;
 					exit(EXIT_FAILURE);

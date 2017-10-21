@@ -16,7 +16,7 @@ namespace EquParser
 	{
 		infix(equation);
 	}
-	
+
 	VariableEquation::VariableEquation(const std::string & equation, const double x) : Equation(), varx(x)
 	{
 		infix(equation);

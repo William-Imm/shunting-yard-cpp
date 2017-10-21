@@ -7,13 +7,13 @@
 
 #include "utility.hpp"
 
-struct operator_detail 
+struct operator_detail
 {
 	int precendence;
 	bool right_associative;
 };
 
-const std::unordered_map<char, operator_detail> operator_map 
+const std::unordered_map<char, operator_detail> operator_map
 {
 	{'+', {2, false}},
 	{'-', {2, false}},
@@ -36,7 +36,7 @@ namespace EquParser
 				if (op_iterator1->second.precendence < op_iterator2->second.precendence)
 					return true;
 			}
-			else 
+			else
 			{
 				if (op_iterator1->second.precendence <= op_iterator2->second.precendence)
 					return true;
