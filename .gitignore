@@ -38,3 +38,6 @@ __pycache__
 
 # Personal scratch file
 PersonalNotes
+
+# Meson build directory
+build
