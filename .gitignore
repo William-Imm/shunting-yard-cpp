@@ -41,3 +41,6 @@ PersonalNotes
 
 # Meson build directory
 build
+
+# Generated ctags file
+tags
