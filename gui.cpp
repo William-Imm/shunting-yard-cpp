@@ -2,6 +2,7 @@
 // William Immendorf - 2016
 
 #include <iostream>
+#include <limits>
 #include <string>
 #include <utility>
 #include <vector>
