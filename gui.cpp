@@ -13,12 +13,17 @@
 #include "color.hpp"
 #include "varequation.hpp"
 
+// Screen dimensions
 const int screen_width = 800;
 const int screen_height = 600;
 
+// The graph dimensions, in units of X and Y
+// Currently, this is halved and used for a positive/negative graph
+// eg: default of 20 for both results in a graph from -10 to 10 at both axes
 const int x_scale = 20;
 const int y_scale = 20;
 
+// SDL window and its OpenGL context, used for rendering
 SDL_Window* window = nullptr;
 SDL_GLContext gl_context;
 
@@ -34,12 +39,13 @@ void renderInit();
 // Render grid to screen
 void renderGrid();
 
-// Render line, given a VariableEquation
-void renderLine(EquParser::VariableEquation & equation);
+// Render line, given a VariableEquation and a color
+void renderLine(EquParser::VariableEquation & equation, const EquParser::Color color);
 
 // Close SDL and free memory
 void close();
 
+// SDL initialization stuff
 bool init()
 {
 	bool success = true;
@@ -93,6 +99,7 @@ bool init()
 	return success;
 }
 
+// OpenGL-specific initialzation stuff
 bool initGL()
 {
 	// Set up orthographic projection
@@ -118,21 +125,23 @@ bool initGL()
 	return true;
 }
 
+// Prepatory rendering
 void renderInit()
 {
+	// Clear screen
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	// Reset and select modelview matrix
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	// Move created objects to center of screen
+	// Move created objects to center of screen, as a base
 	glTranslatef(screen_width / 2.f, screen_height / 2.f, 0.f);
 }
 
 void renderGrid()
 {
-	// Set drawing color
+	// Set drawing color to pure black
 	glColor3f(0.f, 0.f, 0.f);
 
 	// Render origin lines
@@ -159,19 +168,29 @@ void renderGrid()
 
 void renderLine(EquParser::VariableEquation & equation, const EquParser::Color color)
 {
-	// Set drawing color
+	// Set drawing color to given color
 	glColor3f(color.red, color.green, color.blue);
 
+	// Calculate ratio of pixels to 1 unit of X 
+	// (eg: 640x480 screen with x_scale of 20 = 32 pixels to 1 unit of X)
 	int pixels_to_x = (screen_width / x_scale);
-
+	// And do the same for Y
+	// (eg: 640x480 screen with y_scale of 20 = 24 pixels to 1 unit of Y)
+	double pixels_to_y = (screen_height / (double) y_scale);
+	
 	glLineWidth(2);
 	glBegin(GL_LINE_STRIP);
 		for (int x = -(x_scale / 2); x <= (x_scale / 2); ++x)
 		{
+			// Add a pixel 
 			for (int offset = x * pixels_to_x; offset < (pixels_to_x * (x + 2)); ++offset)
 			{
-				equation.x(x + offset / (double) pixels_to_x);
-				glVertex2d((x * pixels_to_x) + offset, equation.evaluate() * (screen_height / (double) y_scale));
+				// Set the equation's current X value to x, modified by the raw offset
+				equation.x(x + (offset / (double) pixels_to_x));
+				// Now evaluate the equation w/X and get the resulting Y value
+				double y = equation.evaluate();
+				// Render the point, with scaled X + offset, and the 
+				glVertex2d((x * pixels_to_x) + offset, y * pixels_to_y);
 			}
 		}
 	glEnd();
@@ -179,6 +198,7 @@ void renderLine(EquParser::VariableEquation & equation, const EquParser::Color c
 
 void close()
 {
+	// Deinitialize the window and dereference it
 	SDL_DestroyWindow(window);
 	window = nullptr;
 
