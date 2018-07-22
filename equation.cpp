@@ -125,7 +125,7 @@ namespace EquParser
 							process_operator(result_stack, [] (double val1, double val2) { return val1 * val2; });
 							break;
 						case '/':
-							process_operator(result_stack, [] (double val1, double val2) { return val1 / val2; });
+							process_operator(result_stack, [] (double val1, double val2) { return val2 / val1; });
 							break;
 						case '^':
 							process_operator(result_stack, [] (double val1, double val2) { return pow(val2, val1); });
