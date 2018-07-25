@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <limits>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
@@ -233,7 +234,7 @@ int main(int argc, char* argv[])
 	}
 
 	// For each equation, assign an expression and color
-	std::vector<std::pair<VariableEquation, Color>> equation_color_vector;
+	std::vector<std::pair<std::shared_ptr<VariableEquation>, Color>> equation_color_vector;
 	int num_colors = sizeof(EquParser::Colors) / sizeof(*EquParser::Colors);
 	for (int i = 0; i < equation_count; ++i)
 	{
@@ -241,7 +242,7 @@ int main(int argc, char* argv[])
 		std::string expression;
 		cout << "Enter an expression: ";
 		getline(cin, expression);
-		VariableEquation equation(expression);
+		std::shared_ptr<VariableEquation> equation(new VariableEquation(expression));
 		// List avaiable color presets, and select from user input
 		cout << "Avaliable colors:" << endl;
 		for (int j = 0; j < num_colors; j++)
@@ -260,11 +261,11 @@ int main(int argc, char* argv[])
 			}
 			else
 			{
-				equation_color_vector.push_back({equation, EquParser::Colors[color_select]});
+				cout << *equation << endl;
+				equation_color_vector.push_back({std::move(equation), EquParser::Colors[color_select]});
 				color_selected = true;
 			}
 		}
-		cout << equation << endl;
 		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
 
@@ -291,7 +292,7 @@ int main(int argc, char* argv[])
 			renderInit();
 			renderGrid();
 			for (auto equation_color : equation_color_vector)
-				renderLine(equation_color.first, equation_color.second);
+				renderLine(*equation_color.first, equation_color.second);
 			SDL_GL_SwapWindow(window);
 		}
 	}
