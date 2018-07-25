@@ -189,7 +189,7 @@ void renderLine(EquParser::VariableEquation & equation, const EquParser::Color c
 				equation.x(x + (offset / (double) pixels_to_x));
 				// Now evaluate the equation w/X and get the resulting Y value
 				double y = equation.evaluate();
-				// Render the point, with scaled X + offset, and the 
+				// Render the point, with scaled X + offset, and scaled Y
 				glVertex2d((x * pixels_to_x) + offset, y * pixels_to_y);
 			}
 		}
