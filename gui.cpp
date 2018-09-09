@@ -240,7 +240,7 @@ int main(int argc, char* argv[])
 	{
 		// Grab an expression and create a variable equation from it
 		std::string expression;
-		cout << "Enter an expression: ";
+		cout << "Enter an expression for equation " << i + 1 << ": ";
 		getline(cin, expression);
 		std::shared_ptr<VariableEquation> equation(new VariableEquation(expression));
 		// List avaiable color presets, and select from user input
@@ -248,7 +248,7 @@ int main(int argc, char* argv[])
 		for (int j = 0; j < num_colors; j++)
 			cout << EquParser::Colors[j].name << " (" << j << ")" << endl;
 		bool color_selected = false;
-		cout << "Select a color: ";
+		cout << "Select a color for equation " << i + 1 << ": ";
 		while (!color_selected)
 		{
 			int color_select = 0;
@@ -257,7 +257,7 @@ int main(int argc, char* argv[])
 			{
 				cin.clear();
 				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-				cout << "Invalid response, select a color: ";
+				cout << "Invalid response, select a color for equation" << (i + 1) << ": ";
 			}
 			else
 			{
