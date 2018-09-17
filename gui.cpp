@@ -172,8 +172,14 @@ void renderLine(EquParser::VariableEquation & equation, const EquParser::Color c
 	// Set drawing color to given color
 	glColor3f(color.red, color.green, color.blue);
 
+<<<<<<< HEAD
 	// Calculate ratio of pixels to 1 unit of X
 	// (eg: 640x480 screen with x_scale of 20 = 32 pixels to 1 unit of X)
+||||||| merged common ancestors
+=======
+	// Calculate ratio of pixels to 1 unit of X 
+	// (eg: 640x480 screen with x_scale of 20 = 32 pixels to 1 unit of X)
+>>>>>>> meson-build
 	int pixels_to_x = (screen_width / x_scale);
 	// And do the same for Y
 	// (eg: 640x480 screen with y_scale of 20 = 24 pixels to 1 unit of Y)
