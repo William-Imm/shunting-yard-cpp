@@ -55,8 +55,8 @@ namespace EquParser
 			double val2 = num_stack.top();
 			num_stack.pop();
 			num_stack.push(expression(val1, val2));
-	    }
-	    else
-	    	throw std::runtime_error("Not enough arguments for an operator");
+		}
+		else
+			throw std::runtime_error("Not enough arguments for an operator");
 	}
 }
